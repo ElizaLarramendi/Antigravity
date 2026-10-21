@@ -1,0 +1,60 @@
+---
+title: "Exploring Storms"
+author: "Antigravity"
+execute:
+  echo: false
+---
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+```
+
+```{r}
+#| label: storms-plot
+
+storms |>
+  filter(status %in% c("tropical depression", "tropical storm", "hurricane")) |>
+  mutate(status = factor(status, levels = c("tropical depression", "tropical storm", "hurricane"))) |>
+  count(year, status) |>
+  ggplot(aes(x = year, y = n, fill = status)) +
+  geom_area() +
+  scale_fill_manual(
+    values = c(
+      "tropical depression" = "lightblue",
+      "tropical storm" = "orange",
+      "hurricane" = "darkred"
+    )
+  ) +
+  labs(
+    title = "Count of Storm Types per Year",
+    x = "Year",
+    y = "Count",
+    fill = "Storm Type"
+  )
+```
+
+```{r}
+#| label: filtered-storms
+#| cache: true
+storms_recent <- storms |>
+  filter(year >= 2000) |>
+  select(year, name, status, wind, pressure)
+```
+
+```{r}
+#| label: pressure-wind-scatter
+
+storms_recent |>
+  ggplot(aes(x = pressure, y = wind, color = status)) +
+  geom_point(alpha = 0.4) +
+  labs(
+    title = "Relationship Between Air Pressure and Wind Speed",
+    subtitle = "Lower central pressure produces higher wind speeds, especially in hurricanes",
+    x = "Atmospheric Pressure (mbar)",
+    y = "Wind Speed (knots)",
+    color = "Storm Status"
+  )
+```

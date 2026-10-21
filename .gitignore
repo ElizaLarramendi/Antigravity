@@ -1,0 +1,19 @@
+# History and workspace data
+.Rhistory
+.RData
+.Ruserdata
+Rplots.pdf
+
+# User environment variables (API keys, secrets)
+.Renviron
+
+# RStudio / Project settings
+.Rproj.user/
+
+# Quarto temporary files and execution cache
+/.quarto/
+*_cache/
+
+# Operating system files
+.DS_Store
+Thumbs.db
